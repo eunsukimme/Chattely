@@ -65,7 +65,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       data: null,
-      endpoint: "http://localhost:4000",
+      endpoint: "/",
       message: "",
       messageFromServer: [],
       socket: null
