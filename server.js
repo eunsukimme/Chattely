@@ -5,7 +5,7 @@ const io = require("socket.io").listen(server);
 const morgan = require("morgan");
 
 const path = require("path");
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
 
 app.use(morgan("dev"));
 app.use(express.static(path.join(__dirname, "/client/build")));
