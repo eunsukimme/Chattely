@@ -1,0 +1,20 @@
+{
+  "name": "simple_chatting",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "morgan": "^1.9.1",
+    "socket.io": "^2.2.0",
+    "styled-components": "^4.3.2"
+  },
+  "scripts": {
+    "client": "cd client && yarn start",
+    "server": "nodemon server.js",
+    "dev": "concurrently -k \"yarn client\" \"yarn server\""
+  },
+  "devDependencies": {
+    "concurrently": "^4.1.2"
+  }
+}
