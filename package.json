@@ -10,6 +10,7 @@
     "styled-components": "^4.3.2"
   },
   "scripts": {
+    "heroku-postbuild": "cd client && yarn && yarn build",
     "client": "cd client && yarn start",
     "server": "nodemon server.js",
     "dev": "concurrently -k \"yarn client\" \"yarn server\""
