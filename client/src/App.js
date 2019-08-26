@@ -1,6 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import socketIOClient from "socket.io-client";
+import fireSound from "./sounds/fire.mp3";
+import beachWaveSound from "./sounds/beach_wave.mp3";
+import background_beach_night from "./background-image/beach_night.jpg";
+import background_fire_night from "./background-image/fire_night.jpg";
 
 const Container = styled.div`
   width: 100%;
@@ -10,6 +14,13 @@ const Container = styled.div`
   justify-content: center;
 
   border: 1px solid black;
+  background-image: url(${props =>
+    props.theme === "beach_night"
+      ? background_beach_night
+      : props.theme === "fire_night"
+      ? background_fire_night
+      : ""});
+  background-size: 100% 100%;
 `;
 
 const ChatContainer = styled.div`
@@ -19,6 +30,7 @@ const ChatContainer = styled.div`
   display: flex;
   flex-direction: column;
 
+  background-color: rgba(0, 0, 0, 0.3);
   border: 1px solid black;
 `;
 
@@ -29,6 +41,7 @@ const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
 
+  overflow: scroll;
   border: 1px solid black;
 `;
 
@@ -68,7 +81,8 @@ class App extends React.Component {
       endpoint: "/",
       message: "",
       messageFromServer: [],
-      socket: null
+      socket: null,
+      theme: "beach_night"
     };
   }
 
@@ -104,8 +118,9 @@ class App extends React.Component {
   };
 
   render() {
+    const { theme } = this.state;
     return (
-      <Container>
+      <Container theme={this.state.theme}>
         <ChatContainer>
           <ContentContainer>{this.state.messageFromServer}</ContentContainer>
           <MessageContainer onSubmit={this.handleSubmit.bind(this)}>
@@ -118,6 +133,15 @@ class App extends React.Component {
             <Button onClick={this.handleChange.bind(this)}>전송</Button>
           </MessageContainer>
         </ChatContainer>
+
+        {/* audio section */
+        theme === "beach_night" ? (
+          <audio src={beachWaveSound} autoPlay loop />
+        ) : theme === "fire_night" ? (
+          <audio src={fireSound} autoPlay loop />
+        ) : (
+          ""
+        )}
       </Container>
     );
   }
