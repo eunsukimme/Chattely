@@ -13,7 +13,6 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
 
-  border: 1px solid black;
   background-image: url(${props =>
     props.theme === "beach_night"
       ? background_beach_night
@@ -21,6 +20,8 @@ const Container = styled.div`
       ? background_fire_night
       : ""});
   background-size: 100% 100%;
+
+  font-family: Helvetica;
 `;
 
 const ChatContainer = styled.div`
@@ -31,7 +32,10 @@ const ChatContainer = styled.div`
   flex-direction: column;
 
   background-color: rgba(0, 0, 0, 0.3);
-  border: 1px solid black;
+
+  @media only screen and (max-width: 720px) {
+    width: 100%;
+  }
 `;
 
 const ContentContainer = styled.div`
@@ -46,7 +50,7 @@ const ContentContainer = styled.div`
 `;
 
 const ContentBox = styled.div`
-  background-color: lightgrey;
+  background-color: rgba(255, 255, 255, 0.5);
   padding: 10px;
 `;
 
@@ -55,13 +59,12 @@ const MessageContainer = styled.form`
   height: 10%;
 
   display: flex;
-
-  border: 1px solid black;
 `;
 
 const MessageBox = styled.input`
   width: 90%;
   height: 100%;
+  font-size: 1rem;
 
   border: 1px solid black;
 `;
@@ -84,17 +87,21 @@ class App extends React.Component {
       socket: null,
       theme: "beach_night"
     };
+
+    this.ContentContainerRef = React.createRef();
   }
 
   componentDidMount = async () => {
     const socket = socketIOClient(this.state.endpoint);
-    socket.on("message", msg => {
+    socket.on("message", async msg => {
       const newMessages = this.state.messageFromServer;
       newMessages.push(<ContentBox>{msg}</ContentBox>);
 
-      this.setState({
+      await this.setState({
         messageFromServer: newMessages
       });
+
+      this.ContentContainerRef.current.scrollTop = this.ContentContainerRef.current.clientHeight;
     });
     await this.setState({
       socket: socket
@@ -122,7 +129,9 @@ class App extends React.Component {
     return (
       <Container theme={this.state.theme}>
         <ChatContainer>
-          <ContentContainer>{this.state.messageFromServer}</ContentContainer>
+          <ContentContainer ref={this.ContentContainerRef}>
+            {this.state.messageFromServer}
+          </ContentContainer>
           <MessageContainer onSubmit={this.handleSubmit.bind(this)}>
             <MessageBox
               type="text"
