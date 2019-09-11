@@ -103,4 +103,7 @@ typings/
 # Ignore all local history of files
 .history
 
+# client node_modules
+client/node_modules/
+
 # End of https://www.gitignore.io/api/node,visualstudiocode
