@@ -41,7 +41,7 @@ https://chattely.herokuapp.com/
 
 MIT
 
-## Acknowledgements
+## Info
 
 - 현재 지원하는 테마는 광안리(밤) 입니다.
 - 사운드를 키면 배경음악을 들을 수 있습니다.
